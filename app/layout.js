@@ -1,8 +1,7 @@
-import { Inter, Roboto_Slab } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
-const roboto_slab = Roboto_Slab({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Jackie Wong",
@@ -12,7 +11,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={roboto_slab.className}>{children}</body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
