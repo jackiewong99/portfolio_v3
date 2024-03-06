@@ -4,7 +4,7 @@ const Projects = () => {
   return (
     <div className="flex min-h-screen flex-col items-center px-8 py-12">
       <div className="flex justify-center pb-16">
-        <h1 className="text-forest-700 tracking-tigh text-4xl font-bold xl:text-8xl">
+        <h1 className="text-forest-700 text-4xl font-bold tracking-tight xl:text-8xl">
           Projects
         </h1>
       </div>
