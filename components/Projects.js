@@ -1,10 +1,14 @@
-import { projectList } from "assets/projects_list";
+import { projectList } from "assets/lists";
+import { ArrowExpand01Icon, Folder01Icon, GithubIcon } from "hugeicons-react";
 
 const Projects = () => {
   return (
-    <div className="flex min-h-screen flex-col items-center px-8 py-12">
+    <div
+      id="projects"
+      className="flex min-h-screen flex-col items-center px-8 py-12"
+    >
       <div className="flex justify-center pb-16">
-        <h1 className="text-forest-700 text-4xl font-bold tracking-tight xl:text-8xl">
+        <h1 className="text-4xl font-bold tracking-tight text-forest-700 xl:text-8xl">
           Projects
         </h1>
       </div>
@@ -19,24 +23,46 @@ const Projects = () => {
 
 const ProjectCard = ({ project }) => {
   return (
-    <div className="bg-forest-100 flex flex-col gap-5 rounded-md p-5 shadow-xl">
-      <div className="text-forest-700 flex justify-between">
-        <h5>link</h5>
-        <h5>link</h5>
+    <div className="flex flex-col gap-5 rounded-md bg-forest-100 p-5 shadow-lg duration-100 ease-in hover:-translate-y-[5px] hover:transition-all">
+      <div className="flex justify-between text-forest-700">
+        <div className="flex cursor-pointer gap-3">
+          <a
+            href={project.website}
+            target="_blank"
+            className="duration-100 ease-in hover:opacity-60 hover:transition-all"
+          >
+            <Folder01Icon size={24} color="#5c8d89" strokeWidth={2.5} />
+          </a>
+          <a
+            href={project.github_repo}
+            target="_blank"
+            className="duration-100 ease-in hover:opacity-60 hover:transition-all"
+          >
+            <GithubIcon size={24} color="#5c8d89" strokeWidth={2.5} />
+          </a>
+        </div>
+        <div className="cursor-pointer duration-100 ease-in hover:opacity-60 hover:transition-all">
+          <a href={project.github_repo} target="_blank">
+            <ArrowExpand01Icon size={24} color="#5c8d89" strokeWidth={2.5} />
+          </a>
+        </div>
       </div>
       <div className="flex min-h-52 flex-col gap-5">
-        <h2 className="text-forest-700 text-2xl font-semibold">
-          {project.title}
-        </h2>
-        <h5 className="text-forest-800 text-lg">{project.description}</h5>
+        <a
+          href={project.website}
+          target="_blank"
+          className="cursor-pointer duration-100 ease-in hover:opacity-60 hover:transition-all"
+        >
+          <h2 className="text-2xl font-semibold text-forest-700">
+            {project.title}
+          </h2>
+        </a>
+        <h5 className="text-lg text-forest-800">{project.description}</h5>
       </div>
       <ul className="flex items-center justify-start gap-5">
         {project.tech_list.map((tech_name, index) => {
           return (
-            <li
-              key={index}
-              className="text-forest-800 text-base opacity-60 md:text-xs xl:text-sm min-[1643px]:text-lg"
-            >
+            <li key={index} className="text-sm text-forest-800 opacity-60">
               {tech_name}
             </li>
           );
