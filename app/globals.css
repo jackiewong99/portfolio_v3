@@ -20,6 +20,22 @@
 
 @layer base {
   body {
-    @apply font-sans text-base text-slate-tide leading-relaxed;
+    @apply font-sans text-base text-slate-tide bg-mist leading-relaxed;
+  }
+
+  /* Focus styles for keyboard navigation */
+  *:focus-visible {
+    @apply outline outline-2 outline-reef-teal outline-offset-2;
+  }
+
+  /* Remove default focus outline, we're using the custom one above */
+  *:focus {
+    outline: none;
+  }
+}
+
+@layer utilities {
+  .prose {
+    @apply max-w-prose;
   }
 }
