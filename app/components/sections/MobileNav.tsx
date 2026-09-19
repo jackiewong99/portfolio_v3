@@ -7,7 +7,7 @@ import NavToggle from './NavToggle';
 import { navigationItems, resumeHref } from './navigation-data';
 
 // Matches the fixed toggle's centre, making the menu appear to grow from it.
-const revealOrigin = 'calc(100% - 2.5rem) 2.5rem';
+const revealOrigin = 'calc(100% - 5rem) 5rem';
 // useSyncExternalStore avoids rendering a document portal during SSR hydration.
 const subscribeToClient = () => () => undefined;
 
