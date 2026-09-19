@@ -8,42 +8,24 @@ import MobileNav from './MobileNav';
 import { navigationItems } from './navigation-data';
 import useScrollVisibility from './useScrollVisibility';
 
-// NEW: shared by the in-page links and the Resume link so they can't drift apart.
-// CHANGED: duration-200 -> duration-150. Blueprint 7.4 sets link hover to a 150ms
-// colour shift.
-const desktopLinkClassName =
-  'text-sm font-medium text-deep-water transition-colors duration-150 hover:text-reef-teal';
-
 export default function Navigation() {
   const { isPastHero, isVisible } = useScrollVisibility();
-  // MobileNav owns menu interaction; this state only coordinates the brand's a11y state.
+  // MobileNav owns menu interaction; this state only coordinates the brand fade.
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
     <motion.header
       animate={{ y: isVisible ? 0 : '-115%' }}
-      // CHANGED (blueprint 3.1): "solid Mist background + hairline bottom border".
-      //  - bg-mist/95 -> bg-mist: fully solid, as specified.
-      //  - removed backdrop-blur-md: blueprint 7.3 reserves blur for the modal, and
-      //    animating backdrop-filter was the most expensive part of the old
-      //    transition (it forces a re-blur of everything behind the bar).
-      //  - border-fog-line/80 -> border-fog-line: 5.1 defines fog-line as the
-      //    hairline token at full strength.
-      //  - transparent state is bg-mist/0 (mist at 0% alpha) rather than
-      //    bg-transparent so the fade travels along mist instead of through black.
-      //  - transition list trimmed to `colors` now that blur is gone.
-      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${
-        isPastHero ? 'border-fog-line bg-mist' : 'border-transparent bg-mist/0'
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,backdrop-filter] duration-300 ${
+        isPastHero
+          ? 'border-fog-line/80 bg-mist/95 backdrop-blur-md'
+          : 'border-transparent bg-transparent'
       }`}
       transition={{ duration: 0.28, ease: [0.4, 0, 0.2, 1] }}
     >
       <nav
         aria-label='Primary navigation'
-        // CHANGED (blueprint 6.2): container is max-w 1120px with px-6 on mobile and
-        // px-8 on desktop. Was max-w-7xl (1280px) with px-5 / sm:px-8 / lg:px-10.
-        // The extra `sm` step is gone so the mobile toggle's offset stays constant
-        // across the whole mobile range (MobileNav positions it against px-6).
-        className='mx-auto flex h-20 max-w-[1120px] items-center justify-between px-6 lg:h-22 lg:px-8'
+        className='mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8 lg:h-22 lg:px-10'
       >
         <motion.div
           animate={{
@@ -92,7 +74,7 @@ export default function Navigation() {
           </ul>
         </div>
 
-        {/* MobileNav reports its open state so the brand can drop out of the tab order with it. */}
+        {/* MobileNav reports its open state so the brand can transition with it. */}
         <MobileNav
           isNavigationVisible={isVisible}
           onOpenChange={setIsMobileMenuOpen}
