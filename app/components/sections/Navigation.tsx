@@ -4,7 +4,8 @@ import { motion } from 'motion/react';
 import Link from 'next/link';
 import { useState } from 'react';
 import MobileNav from './MobileNav';
-import { navigationItems, resumeHref } from './navigation-data';
+// import { navigationItems, resumeHref } from './navigation-data';
+import { navigationItems } from './navigation-data';
 import useScrollVisibility from './useScrollVisibility';
 
 export default function Navigation() {
@@ -27,8 +28,11 @@ export default function Navigation() {
         className='mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8 lg:h-22 lg:px-10'
       >
         <motion.div
-          animate={{ opacity: isMobileMenuOpen ? 0 : 1, y: isMobileMenuOpen ? -4 : 0 }}
-          className='relative z-[60]'
+          animate={{
+            opacity: isMobileMenuOpen ? 0 : 1,
+            y: isMobileMenuOpen ? -4 : 0,
+          }}
+          className='relative z-60'
           transition={{ duration: 0.18, ease: 'easeOut' }}
         >
           {/* Keep the header brand out of the overlay's visual and keyboard flow. */}
@@ -45,26 +49,29 @@ export default function Navigation() {
         <div className='hidden items-center gap-8 lg:flex'>
           {/* Desktop links remain mounted above the 1024px breakpoint. */}
           <ul className='flex items-center gap-7' role='list'>
-            {navigationItems.map((item) => (
+            {navigationItems.map(item => (
               <li key={item.href}>
-                <a
-                  className='text-sm font-medium text-deep-water transition-colors duration-200 hover:text-reef-teal'
-                  href={item.href}
-                >
-                  {item.label}
-                </a>
+                {item.label != 'Resume' ? (
+                  <a
+                    className='text-sm font-medium text-deep-water transition-colors duration-200 hover:text-reef-teal'
+                    href={item.href}
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <a
+                    className='inline-flex items-center gap-1.5 text-sm font-medium text-deep-water transition-colors duration-200 hover:text-reef-teal'
+                    href={item.href}
+                    rel='noreferrer'
+                    target='_blank'
+                  >
+                    {item.label}
+                    <ExternalArrow />
+                  </a>
+                )}
               </li>
             ))}
           </ul>
-          <a
-            className='inline-flex items-center gap-1.5 border-l border-fog-line pl-8 text-sm font-medium text-deep-water transition-colors duration-200 hover:text-reef-teal'
-            href={resumeHref}
-            rel='noreferrer'
-            target='_blank'
-          >
-            Resume
-            <ExternalArrow />
-          </a>
         </div>
 
         {/* MobileNav reports its open state so the brand can transition with it. */}
@@ -80,7 +87,12 @@ export default function Navigation() {
 function ExternalArrow() {
   // Shared external-link affordance for the desktop resume action.
   return (
-    <svg aria-hidden='true' className='size-3.5' fill='none' viewBox='0 0 16 16'>
+    <svg
+      aria-hidden='true'
+      className='size-3.5'
+      fill='none'
+      viewBox='0 0 16 16'
+    >
       <path
         d='M3 13 13 3M6 3h7v7'
         stroke='currentColor'
