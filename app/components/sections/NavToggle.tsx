@@ -17,7 +17,7 @@ export default function NavToggle({ isOpen, onClick }: NavToggleProps) {
       aria-expanded={isOpen}
       aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
       animate={{ rotate: isOpen ? 90 : 0 }}
-      className='relative grid size-10 place-items-center rounded-full text-deep-water transition-colors hover:bg-fog-line focus-visible:outline-none'
+      className='relative grid size-10 place-items-center rounded-full text-deep-water cursor-pointer transition-colors hover:bg-fog-line focus-visible:outline-none'
       onClick={onClick}
       type='button'
       whileTap={{ scale: 0.9 }}
