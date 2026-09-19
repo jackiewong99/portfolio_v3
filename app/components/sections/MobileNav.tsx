@@ -4,8 +4,10 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
 import NavToggle from './NavToggle';
-import { navigationItems, resumeHref } from './navigation-data';
+import { navigationItems } from './navigation-data';
 
+// Matches the fixed toggle's centre, making the menu appear to grow from it.
+const revealOrigin = 'calc(100% - 5rem) 5rem';
 // useSyncExternalStore avoids rendering a document portal during SSR hydration.
 const subscribeToClient = () => () => undefined;
 
@@ -230,16 +232,8 @@ export default function MobileNav({
         createPortal(
           <>
             <motion.div
-              animate={{ opacity: isToggleShown ? 1 : 0 }}
-              // CHANGED: right-5 -> right-3.5. The header now uses px-6 (blueprint
-              // 6.2). The button is 40px and its icon is 20px, so the icon sits 10px
-              // inside the button; 14px + 10px = 24px lines the icon's right edge up
-              // with the padding, mirroring the brand's 24px left inset. If you change
-              // the header padding, change this too (the reveal origin follows
-              // automatically because it is measured).
-              className='fixed right-3.5 top-5 z-[70] lg:hidden'
-              inert={!isToggleShown}
-              ref={toggleAnchorRef}
+              animate={{ opacity: isNavigationVisible || isOpen ? 1 : 0 }}
+              className='fixed right-5 top-5 z-70 lg:hidden'
               transition={{ duration: 0.18, ease: 'easeOut' }}
             >
               {/* A persistent control stays above the reveal, so its icon can morph both ways. */}
@@ -255,42 +249,16 @@ export default function MobileNav({
                   }}
                   aria-labelledby='mobile-navigation-title'
                   aria-modal='true'
-                  // CHANGED: dropped `overflow-hidden` (the inner column scrolls now)
-                  // and the click-to-close handlers. The inner column covers the whole
-                  // overlay, so the old outer onClick could never fire; Escape, the
-                  // toggle, and link clicks are the real exits.
-                  //
-                  // NOTE: bg-fog-line is the blueprint's hairline/divider token (5.1),
-                  // not a surface token. Kept because a mist/sea-foam overlay over a
-                  // mist page makes the circle edge nearly invisible. See the notes
-                  // in the review if you want to change it.
-                  className='fixed inset-0 z-[60] bg-fog-line text-deep-water'
-                  exit={{
-                    clipPath: closedClipPath,
-                    transition: closeTransition,
-                  }}
+                  className='fixed inset-0 z-60 overflow-hidden bg-fog-line text-deep-water'
+                  exit={{ clipPath: `circle(0px at ${revealOrigin})` }}
                   id='mobile-navigation'
                   initial={{ clipPath: closedClipPath }}
                   role='dialog'
                 >
-                  {/*
-                    NEW: `overflow-y-auto overscroll-contain`. In landscape phones
-                    (~375px tall) four 36px links plus Resume are taller than the
-                    screen and the old overflow-hidden clipped the last ones with no
-                    way to reach them. `mt-auto` below still bottom-anchors the links
-                    whenever they fit.
-                    CHANGED: px-5 sm:px-8 -> px-6 (blueprint 6.2: px-6 below lg), so
-                    the links line up with the header's brand.
-                  */}
-                  <div className='flex h-full flex-col overflow-y-auto overscroll-contain px-6 pb-10 pt-28'>
-                    {/*
-                      CHANGED: the tracked, uppercase mono "Navigate" eyebrow is now a
-                      screen-reader-only title. Blueprint 8.2 bans ALL-CAPS labels and
-                      tracked eyebrows; the dialog still needs an accessible name.
-                    */}
-                    <h2 className='sr-only' id='mobile-navigation-title'>
-                      Navigation menu
-                    </h2>
+                  <div
+                    className='flex h-full flex-col px-5 pb-10 pt-28 sm:px-8'
+                    onClick={event => event.stopPropagation()}
+                  >
                     <div className='mt-auto pb-6' ref={contentRef}>
                       <nav aria-label='Mobile navigation'>
                         <ul className='space-y-1'>
@@ -312,59 +280,29 @@ export default function MobileNav({
                                 ease: 'easeOut',
                               }}
                             >
-                              <a
-                                // CHANGED: text-5xl/sm:text-6xl -> text-4xl. Blueprint 8.1
-                                // tops out at 40px for non-hero type; 48-60px was off-scale.
-                                // Negative tracking eased from -0.045em to -0.03em now that
-                                // the size is smaller. items-baseline sits the small number
-                                // on the label's baseline instead of floating mid-height.
-                                className='group inline-flex items-baseline gap-3 font-display text-4xl font-semibold tracking-[-0.03em] transition-colors duration-150 hover:text-reef-teal'
-                                href={item.href}
-                                onClick={closeMenu}
-                              >
-                                {/*
-                                  CHANGED: 0.65rem (10px) uppercase tracked mono -> text-xs
-                                  (13px, the smallest size in the blueprint scale), no caps,
-                                  no tracking. Kept the numbers because your brief allowed
-                                  mono here, but note blueprint 3.5 only wants numbering for
-                                  real sequences. Deleting this span is a safe follow-up.
-                                */}
-                                <span className='font-mono text-xs font-medium text-slate-tide transition-colors duration-150 group-hover:text-reef-teal'>
-                                  0{index + 1}
-                                </span>
-                                {item.label}
-                              </a>
+                              {item.label != 'Resume' ? (
+                                <a
+                                  className='font-display text-5xl font-semibold tracking-[-0.045em] transition-colors hover:text-reef-teal sm:text-6xl'
+                                  href={item.href}
+                                  onClick={closeMenu}
+                                >
+                                  {item.label}
+                                </a>
+                              ) : (
+                                <a
+                                  className='inline-flex items-center gap-2 font-display text-5xl font-semibold tracking-[-0.045em] transition-colors hover:text-reef-teal sm:text-6xl'
+                                  href={item.href}
+                                  rel='noreferrer'
+                                  target='_blank'
+                                >
+                                  Resume
+                                  <ExternalArrow />
+                                </a>
+                              )}
                             </motion.li>
                           ))}
                         </ul>
                       </nav>
-                      <motion.a
-                        animate={{ opacity: 1, y: 0 }}
-                        // CHANGED: uppercase tracked mono -> regular sentence-case body
-                        // text (blueprint 8.2), sized as a secondary action under the
-                        // display links. Same 150ms colour shift as every other link.
-                        className='mt-10 inline-flex items-center gap-2 text-lg font-medium text-deep-water transition-colors duration-150 hover:text-reef-teal'
-                        href={resumeHref}
-                        initial={{ opacity: 0, y: 12 }}
-                        onClick={closeMenu}
-                        rel='noreferrer'
-                        target='_blank'
-                        transition={{
-                          // Continues the stagger after the last link instead of the
-                          // old hard-coded 0.42s, so adding/removing a nav item can't
-                          // leave a gap or an overlap.
-                          delay: prefersReducedMotion
-                            ? 0
-                            : ITEM_DELAY +
-                              navigationItems.length * ITEM_STAGGER,
-                          duration: 0.24,
-                        }}
-                      >
-                        Resume
-                        <ExternalArrow />
-                        {/* NEW: the arrow alone doesn't tell screen-reader users it opens a new tab. */}
-                        <span className='sr-only'>(opens in a new tab)</span>
-                      </motion.a>
                     </div>
                     {/*
                       REMOVED: the "Jackie Wong · 2026" footer line. It was 10px
@@ -386,12 +324,7 @@ export default function MobileNav({
 function ExternalArrow() {
   // Mobile counterpart to the resume affordance in Navigation.tsx.
   return (
-    <svg
-      aria-hidden='true'
-      className='size-3.5'
-      fill='none'
-      viewBox='0 0 16 16'
-    >
+    <svg aria-hidden='true' className='size-9' fill='none' viewBox='0 0 16 16'>
       <path
         d='M3 13 13 3M6 3h7v7'
         stroke='currentColor'

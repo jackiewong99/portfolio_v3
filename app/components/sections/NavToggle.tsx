@@ -118,11 +118,8 @@ export default function NavToggle({ isOpen, onClick }: NavToggleProps) {
       aria-controls='mobile-navigation'
       aria-expanded={isOpen}
       aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
-      // CHANGED: removed `focus-visible:outline-none` so the global focus ring in
-      // globals.css shows for keyboard users (blueprint QA: keyboard pass), and
-      // swapped the tinted `hover:bg-deep-water/5` circle for the same
-      // `hover:text-reef-teal` shift every other nav link uses (blueprint 7.4).
-      className='relative grid size-10 place-items-center rounded-full text-deep-water transition-colors duration-150 hover:text-reef-teal'
+      animate={{ rotate: isOpen ? 90 : 0 }}
+      className='relative grid size-10 place-items-center rounded-full text-deep-water cursor-pointer transition-colors hover:bg-fog-line focus-visible:outline-none'
       onClick={onClick}
       // CHANGED: removed `animate={{ rotate }}`. This transition now only drives
       // `whileTap`; the bars own their own timing via the variants above.

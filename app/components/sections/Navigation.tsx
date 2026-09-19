@@ -4,7 +4,8 @@ import { motion } from 'motion/react';
 import Link from 'next/link';
 import { useState } from 'react';
 import MobileNav from './MobileNav';
-import { navigationItems, resumeHref } from './navigation-data';
+// import { navigationItems, resumeHref } from './navigation-data';
+import { navigationItems } from './navigation-data';
 import useScrollVisibility from './useScrollVisibility';
 
 // NEW: shared by the in-page links and the Resume link so they can't drift apart.
@@ -44,54 +45,44 @@ export default function Navigation() {
         // across the whole mobile range (MobileNav positions it against px-6).
         className='mx-auto flex h-20 max-w-[1120px] items-center justify-between px-6 lg:h-22 lg:px-8'
       >
-        {/* Keep the header brand out of the overlay's keyboard flow while the menu is open. */}
-        <Link
-          aria-hidden={isMobileMenuOpen}
-          // CHANGED: tracking-[-0.035em] -> tracking-[0.08em]. The brand is ALL
-          // CAPS, and capitals need positive tracking; negative tracking on caps
-          // makes letters touch. (The previous site used ~0.1em here.)
-          // REMOVED: the motion.div wrapper that faded the brand out when the menu
-          // opened. The fade finished in 0.18s, long before the circle (growing from
-          // the top-right) reached the top-left, so the brand vanished and left an
-          // empty header for a moment. The overlay now simply covers it as the
-          // circle arrives. The wrapper's `z-[60]` was also inert: the header's own
-          // stacking context (fixed + z-50) traps its children below the overlay.
-          className='font-display text-base font-semibold tracking-[0.08em] text-deep-water transition-colors duration-150 hover:text-reef-teal'
-          href='/'
-          tabIndex={isMobileMenuOpen ? -1 : undefined}
+        <motion.div
+          animate={{
+            opacity: isMobileMenuOpen ? 0 : 1,
+            y: isMobileMenuOpen ? -4 : 0,
+          }}
+          className='relative z-60'
+          transition={{ duration: 0.18, ease: 'easeOut' }}
         >
           JACKIE WONG
         </Link>
 
-        {/*
-          CHANGED (blueprint 3.1): Resume is now the last <li> in the same list as the
-          other links, so spacing is uniform (gap-8). REMOVED the `border-l pl-8`
-          vertical divider: the wireframe has none, and the arrow already carries the
-          "this leaves the page" meaning, making the rule redundant decoration
-          (principle 1: structure must encode information).
-        */}
-        <ul className='hidden items-center gap-8 lg:flex' role='list'>
-          {navigationItems.map(item => (
-            <li key={item.href}>
-              <a className={desktopLinkClassName} href={item.href}>
-                {item.label}
-              </a>
-            </li>
-          ))}
-          <li>
-            <a
-              className={`inline-flex items-center gap-1.5 ${desktopLinkClassName}`}
-              href={resumeHref}
-              rel='noreferrer'
-              target='_blank'
-            >
-              Resume
-              <ExternalArrow />
-              {/* NEW: the arrow alone doesn't tell screen-reader users it opens a new tab. */}
-              <span className='sr-only'>(opens in a new tab)</span>
-            </a>
-          </li>
-        </ul>
+        <div className='hidden items-center gap-8 lg:flex'>
+          {/* Desktop links remain mounted above the 1024px breakpoint. */}
+          <ul className='flex items-center gap-7' role='list'>
+            {navigationItems.map(item => (
+              <li key={item.href}>
+                {item.label != 'Resume' ? (
+                  <a
+                    className='text-sm font-medium text-deep-water transition-colors duration-200 hover:text-reef-teal'
+                    href={item.href}
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <a
+                    className='inline-flex items-center gap-1.5 text-sm font-medium text-deep-water transition-colors duration-200 hover:text-reef-teal'
+                    href={item.href}
+                    rel='noreferrer'
+                    target='_blank'
+                  >
+                    {item.label}
+                    <ExternalArrow />
+                  </a>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
 
         {/* MobileNav reports its open state so the brand can drop out of the tab order with it. */}
         <MobileNav
