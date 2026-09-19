@@ -8,24 +8,25 @@ import {
 } from 'next/font/google';
 import './globals.css';
 
+// These variables are consumed by the Tailwind v4 theme tokens in globals.css.
 const display = Bricolage_Grotesque({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-display',
+  variable: '--font-bricolage',
 });
 
 const body = IBM_Plex_Sans({
   subsets: ['latin'],
   weight: ['400', '500'],
   display: 'swap',
-  variable: '--font-body',
+  variable: '--font-ibm-plex-sans',
 });
 
 const mono = IBM_Plex_Mono({
   subsets: ['latin'],
   weight: ['500'],
   display: 'swap',
-  variable: '--font-mono',
+  variable: '--font-ibm-plex-mono',
 });
 
 export const metadata: Metadata = {
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       className={`${display.variable} ${body.variable} ${mono.variable} h-full antialiased`}
     >
       <body className='min-h-full flex flex-col'>
+        {/* Navigation is a client component; the layout can remain server-rendered. */}
         <Navigation />
         {children}
         <Footer />

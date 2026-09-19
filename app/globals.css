@@ -12,10 +12,10 @@
   --color-wayfinder-gold: #e3a23c;
   --color-reef-coral: #c1453b;
 
-  /* Font families */
-  --font-family-sans: var(--font-body);
-  --font-family-serif: var(--font-display);
-  --font-family-mono: var(--font-mono);
+  /* Map the self-hosted next/font variables to Tailwind's font utilities. */
+  --font-sans: var(--font-ibm-plex-sans);
+  --font-display: var(--font-bricolage);
+  --font-mono: var(--font-ibm-plex-mono);
 }
 
 @layer base {
