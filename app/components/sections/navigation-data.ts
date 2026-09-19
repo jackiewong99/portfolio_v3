@@ -6,5 +6,4 @@ export const navigationItems = [
   { label: 'Contact', href: '#contact' },
 ] as const;
 
-// Place the current resume at public/Jackie_Wong_Resume.pdf when it is ready.
 export const resumeHref = '/Jackie_Wong_Resume.pdf';
