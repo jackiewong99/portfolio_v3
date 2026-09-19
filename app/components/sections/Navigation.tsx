@@ -53,8 +53,16 @@ export default function Navigation() {
           className='relative z-60'
           transition={{ duration: 0.18, ease: 'easeOut' }}
         >
-          JACKIE WONG
-        </Link>
+          {/* Keep the header brand out of the overlay's visual and keyboard flow. */}
+          <Link
+            aria-hidden={isMobileMenuOpen}
+            className='font-display text-base font-semibold tracking-[-0.035em] text-deep-water transition-colors hover:text-reef-teal'
+            href='/'
+            tabIndex={isMobileMenuOpen ? -1 : undefined}
+          >
+            JACKIE WONG
+          </Link>
+        </motion.div>
 
         <div className='hidden items-center gap-8 lg:flex'>
           {/* Desktop links remain mounted above the 1024px breakpoint. */}
