@@ -163,13 +163,13 @@ export default function MobileNav({
 function ExternalArrow() {
   // Mobile counterpart to the resume affordance in Navigation.tsx.
   return (
-    <svg aria-hidden='true' className='size-9' fill='none' viewBox='0 0 16 16'>
+    <svg aria-hidden='true' className='size-8' fill='none' viewBox='0 0 16 16'>
       <path
         d='M3 13 13 3M6 3h7v7'
         stroke='currentColor'
         strokeLinecap='round'
         strokeLinejoin='round'
-        strokeWidth='1.5'
+        strokeWidth='1.75'
       />
     </svg>
   );
