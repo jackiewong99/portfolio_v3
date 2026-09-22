@@ -103,12 +103,12 @@ export default function MobileNav({
                   transition={revealTransition}
                 >
                   <div
-                    className='flex h-full flex-col px-5 pb-10 pt-28 sm:px-8'
+                    className='flex h-full flex-col justify-between px-5 pb-10 pt-28 sm:px-8'
                     onClick={event => event.stopPropagation()}
                   >
-                    <div className='mt-auto pb-6' ref={contentRef}>
+                    <div className='mt-8 pb-6' ref={contentRef}>
                       <nav aria-label='Mobile navigation'>
-                        <ul className='space-y-1'>
+                        <ul className='space-y-4'>
                           {navigationItems.map((item, index) => (
                             <motion.li
                               animate={{ opacity: 1, y: 0 }}
