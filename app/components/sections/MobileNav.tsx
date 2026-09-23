@@ -4,7 +4,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
 import NavToggle from './NavToggle';
-import { navigationItems } from './navigation-data';
+import { navigationItems } from '../../data/navigation-data';
 
 // Matches the fixed toggle's centre, making the menu appear to grow from it.
 const revealOrigin = 'calc(100% - 5rem) 5rem';

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import MobileNav from './MobileNav';
 // import { navigationItems, resumeHref } from './navigation-data';
-import { navigationItems } from './navigation-data';
+import { navigationItems } from '../../data/navigation-data';
 import useScrollVisibility from './useScrollVisibility';
 
 export default function Navigation() {
