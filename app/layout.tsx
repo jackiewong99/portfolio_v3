@@ -38,7 +38,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang='en'
-      className={`${display.variable} ${body.variable} ${mono.variable} h-full antialiased`}
+      className={`${display.variable} ${body.variable} ${mono.variable} h-full scroll-smooth antialiased`}
     >
       <body className='min-h-full flex flex-col'>
         {/* Navigation is a client component; the layout can remain server-rendered. */}
