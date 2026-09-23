@@ -24,10 +24,10 @@ export default function Hero() {
             <p>Based in Honolulu, Hawai&apos;i.</p>
           </div>
           <div className='flex justify-start items-center gap-5 font-sans font-medium text-lg md:text-xl'>
-            <button className='bg-wayfinder-gold text-deep-water px-7 py-3 rounded-md cursor-pointer'>
+            <button className='bg-wayfinder-gold text-deep-water px-7 py-3 rounded-md cursor-pointer transition hover:brightness-90 ease-in duration-150'>
               View Work
             </button>
-            <button className='bg-transparent border-2 border-deep-water px-7 py-3 rounded-md cursor-pointer'>
+            <button className='bg-transparent border-2 border-deep-water px-7 py-3 rounded-md cursor-pointer transition-colors hover:bg-sea-foam ease-in duration-150'>
               Get in Touch
             </button>
           </div>
