@@ -15,7 +15,7 @@ export default function Hero() {
             <p className='font-normal text-lg md:text-xl'>
               Frontend Engineer / IT System Administrator
             </p>
-            <h1 className='font-display text-4xl font-semibold md:text-6xl'>
+            <h1 className='font-display text-4xl font-semibold md:text-5xl lg:text-6xl'>
               I build fast, considered interfaces - currently with React,
               Next.js, and Node.
             </h1>
