@@ -25,10 +25,10 @@ export default function Hero() {
           </div>
           <div className='flex justify-start items-center gap-5 font-sans font-medium text-lg md:text-xl'>
             <button className='bg-wayfinder-gold text-deep-water px-7 py-3 rounded-md cursor-pointer transition hover:brightness-90 ease-in duration-150'>
-              View Work
+              <a href='#work'>View Work</a>
             </button>
             <button className='bg-transparent border-2 border-deep-water px-7 py-3 rounded-md cursor-pointer transition-colors hover:bg-sea-foam ease-in duration-150'>
-              Get in Touch
+              <a href='#contact'>Get in Touch</a>
             </button>
           </div>
         </div>
