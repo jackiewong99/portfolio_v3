@@ -9,19 +9,18 @@ type ScrollVisibilityOptions = {
 };
 
 type ScrollVisibility = {
-  isPastHero: boolean;
+  isScrolled: boolean;
   isVisible: boolean;
 };
 
 /** Shares throttled navigation scroll state with desktop and mobile views. */
 export default function useScrollVisibility({
-  heroSelector = '[data-navigation-hero]',
   hideThreshold = 12,
   throttleMs = 100,
 }: ScrollVisibilityOptions = {}): ScrollVisibility {
   const previousScrollY = useRef(0);
   const [scrollState, setScrollState] = useState<ScrollVisibility>({
-    isPastHero: false,
+    isScrolled: false,
     isVisible: true,
   });
 
@@ -31,17 +30,14 @@ export default function useScrollVisibility({
 
     const updateScrollState = () => {
       const currentScrollY = window.scrollY;
-      // The hero marker lets the header remain transparent over any hero height.
-      const hero = document.querySelector<HTMLElement>(heroSelector);
-      const heroBottom = hero ? hero.offsetTop + hero.offsetHeight : 80;
-      const isPastHero = currentScrollY > heroBottom - 8;
       const scrollDelta = currentScrollY - previousScrollY.current;
       const isAtTop = currentScrollY < hideThreshold;
+      const isScrolled = !isAtTop;
 
       previousScrollY.current = currentScrollY;
       lastRunAt = Date.now();
 
-      setScrollState((previousState) => {
+      setScrollState((previousState: ScrollVisibility) => {
         const isVisible = isAtTop
           ? true
           : scrollDelta > hideThreshold
@@ -52,12 +48,12 @@ export default function useScrollVisibility({
 
         if (
           previousState.isVisible === isVisible &&
-          previousState.isPastHero === isPastHero
+          previousState.isScrolled === isScrolled
         ) {
           return previousState;
         }
 
-        return { isPastHero, isVisible };
+        return { isScrolled, isVisible };
       });
     };
 
@@ -80,17 +76,15 @@ export default function useScrollVisibility({
 
     updateScrollState();
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', updateScrollState);
 
     return () => {
       window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', updateScrollState);
 
       if (trailingTimer !== undefined) {
         window.clearTimeout(trailingTimer);
       }
     };
-  }, [heroSelector, hideThreshold, throttleMs]);
+  }, [hideThreshold, throttleMs]);
 
   return scrollState;
 }

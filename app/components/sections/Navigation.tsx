@@ -9,7 +9,7 @@ import { navigationItems } from '../../data/navigation-data';
 import useScrollVisibility from './useScrollVisibility';
 
 export default function Navigation() {
-  const { isPastHero, isVisible } = useScrollVisibility();
+  const { isScrolled, isVisible } = useScrollVisibility();
   // MobileNav owns menu interaction; this state only coordinates the brand fade.
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -17,8 +17,8 @@ export default function Navigation() {
     <motion.header
       animate={{ y: isVisible ? 0 : '-115%' }}
       className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,backdrop-filter] duration-300 ${
-        isPastHero
-          ? 'border-fog-line/80 bg-mist/95 backdrop-blur-md'
+        isScrolled
+          ? 'border-fog-line/80 bg-mist/75 backdrop-blur-md'
           : 'border-transparent bg-transparent'
       }`}
       transition={{ duration: 0.28, ease: [0.4, 0, 0.2, 1] }}
@@ -53,14 +53,14 @@ export default function Navigation() {
               <li key={item.href}>
                 {item.label != 'Resume' ? (
                   <a
-                    className='text-sm font-medium text-deep-water transition-colors duration-200 hover:text-reef-teal'
+                    className='text-sm font-medium text-deep-water transition-colors duration-200 ease-in hover:text-reef-teal'
                     href={item.href}
                   >
                     {item.label}
                   </a>
                 ) : (
                   <a
-                    className='inline-flex items-center gap-1.5 text-sm font-medium text-deep-water transition-colors duration-200 hover:text-reef-teal'
+                    className='inline-flex items-center gap-1.5 text-sm font-medium text-deep-water transition-colors duration-200 ease-in hover:text-reef-teal'
                     href={item.href}
                     rel='noreferrer'
                     target='_blank'
