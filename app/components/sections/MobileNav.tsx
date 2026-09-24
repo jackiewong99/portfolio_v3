@@ -51,10 +51,8 @@ export default function MobileNav({
   useEffect(() => {
     if (!isOpen) return;
 
-    // Treat the overlay like a modal: lock scrolling, focus its first link, and
-    // provide an Escape exit while it is present.
+    // Treat the overlay like a modal: provide an Escape exit while it is present.
     const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
     contentRef.current?.querySelector<HTMLAnchorElement>('a')?.focus();
 
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -70,7 +68,7 @@ export default function MobileNav({
 
   const revealTransition = prefersReducedMotion
     ? { duration: 0 }
-    : { duration: 0.38, ease: [0.65, 0, 0.35, 1] as const };
+    : { duration: 0.38, ease: [0.4, 0, 0.65, 1] as const };
 
   return (
     <>
@@ -82,7 +80,7 @@ export default function MobileNav({
             <motion.div
               animate={{ opacity: isNavigationVisible || isOpen ? 1 : 0 }}
               className='fixed right-5 top-5 z-70 lg:hidden'
-              transition={{ duration: 0.18, ease: 'easeOut' }}
+              transition={{ duration: 0.18, ease: 'easeIn' }}
             >
               {/* A persistent control stays above the reveal, so its icon can morph both ways. */}
               <NavToggle isOpen={isOpen} onClick={toggleMenu} />
@@ -94,7 +92,7 @@ export default function MobileNav({
                   animate={{ clipPath: `circle(150vmax at ${revealOrigin})` }}
                   aria-labelledby='mobile-navigation-title'
                   aria-modal='true'
-                  className='fixed inset-0 z-60 overflow-hidden bg-fog-line text-deep-water'
+                  className='fixed inset-0 z-60 overflow-auto bg-fog-line text-deep-water'
                   exit={{ clipPath: `circle(0px at ${revealOrigin})` }}
                   id='mobile-navigation'
                   initial={{ clipPath: `circle(0px at ${revealOrigin})` }}
