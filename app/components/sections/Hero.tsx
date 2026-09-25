@@ -1,9 +1,7 @@
 export default function Hero() {
   return (
-    // Used by useScrollVisibility to switch the fixed navigation to its solid state.
     <section
       className='flex items-stretch mx-auto p-6 max-w-7xl min-h-screen lg:p-8 xl:items-center'
-      data-navigation-hero
       id='hero-section'
     >
       <div
