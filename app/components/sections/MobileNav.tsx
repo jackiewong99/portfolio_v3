@@ -120,7 +120,7 @@ export default function MobileNav({
                             >
                               {item.label != 'Resume' ? (
                                 <a
-                                  className='font-display text-5xl font-semibold tracking-[-0.045em] transition-colors hover:text-reef-teal sm:text-6xl'
+                                  className='font-display text-5xl font-semibold tracking-[-0.045em] transition-colors hover:text-reef-teal ease-in duration-150 sm:text-6xl'
                                   href={item.href}
                                   onClick={closeMenu}
                                 >
@@ -128,7 +128,7 @@ export default function MobileNav({
                                 </a>
                               ) : (
                                 <a
-                                  className='inline-flex items-center gap-2 font-display text-5xl font-semibold tracking-[-0.045em] transition-colors hover:text-reef-teal sm:text-6xl'
+                                  className='inline-flex items-center gap-2 font-display text-5xl font-semibold tracking-[-0.045em] transition-colors hover:text-reef-teal ease-in duration-150 sm:text-6xl'
                                   href={item.href}
                                   rel='noreferrer'
                                   target='_blank'
