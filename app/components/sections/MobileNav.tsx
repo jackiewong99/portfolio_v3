@@ -52,7 +52,6 @@ export default function MobileNav({
     if (!isOpen) return;
 
     // Treat the overlay like a modal: provide an Escape exit while it is present.
-    const originalOverflow = document.body.style.overflow;
     contentRef.current?.querySelector<HTMLAnchorElement>('a')?.focus();
 
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -61,7 +60,6 @@ export default function MobileNav({
 
     window.addEventListener('keydown', closeOnEscape);
     return () => {
-      document.body.style.overflow = originalOverflow;
       window.removeEventListener('keydown', closeOnEscape);
     };
   }, [isOpen]);
