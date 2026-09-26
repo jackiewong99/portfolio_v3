@@ -18,9 +18,7 @@ export default function About() {
         </div>
         <div className='flex flex-col gap-6'>
           <div>
-            <h2 className='font-display text-4xl font-semibold text-deep-water'>
-              About
-            </h2>
+            <h2 className='font-display text-4xl font-semibold'>About</h2>
             <div aria-hidden='true' className='mt-3 h-0.5 w-26 bg-fog-line' />
           </div>
           <div className='about-prose flex flex-col gap-4 text-sm sm:text-base'>
