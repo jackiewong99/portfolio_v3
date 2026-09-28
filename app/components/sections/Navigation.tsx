@@ -18,7 +18,7 @@ export default function Navigation() {
       animate={{ y: isVisible ? 0 : '-115%' }}
       className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,backdrop-filter] duration-300 ${
         isScrolled
-          ? 'border-fog-line/80 bg-mist/75 backdrop-blur-md'
+          ? 'border-fog-line/80 bg-mist/60 backdrop-blur-md'
           : 'border-transparent bg-transparent'
       }`}
       transition={{ duration: 0.28, ease: [0.4, 0, 0.2, 1] }}
