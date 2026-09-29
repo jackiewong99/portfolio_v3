@@ -5,7 +5,7 @@ export default function Experience() {
   return (
     <section
       id='experience'
-      className='flex flex-col items-start justify-start gap-9 mx-auto max-w-7xl min-h-screen p-6 lg:p-8'
+      className='flex flex-col items-start justify-center gap-9 mx-auto max-w-7xl min-h-screen p-6 lg:p-8'
     >
       <div id='experience-header'>
         <h2 className='font-semibold text-3xl'>Experience</h2>
@@ -22,7 +22,7 @@ export default function Experience() {
                 <div className='flex flex-col justify-start gap-5'>
                   <div>
                     <h3 className='font-sans font-semibold'>{item.company}</h3>
-                    <p className='font-mono'>{item.role}</p>
+                    <p className='font-mono opacity-75'>{item.role}</p>
                   </div>
                   <p className='text-prose'>{item.desc}</p>
                 </div>
